@@ -1,0 +1,9 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    restart: unless-stopped
+    volumes:
+      - "/srv/navidrome/data:/data"
+      - "/srv/navidrome/music:/music:ro"
+      - "./navidrome.toml:/data/navidrome.toml"
+    user: 1000:1000
