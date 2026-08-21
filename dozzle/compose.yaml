@@ -5,6 +5,6 @@ services:
       - dozzle_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "8080:8080"
+      - "50495:8080"
 volumes:
   dozzle_data:
