@@ -1,0 +1,16 @@
+endpoints:
+  - name: Gitea
+    url: https://git.ocd.beauty
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+  - name: Navidrome
+    url: https://music.ocd.beauty
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+  - name: Woodpecker CI
+    url: https://ci.ocd.beauty
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
