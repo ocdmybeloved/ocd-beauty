@@ -1,0 +1,10 @@
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    volumes:
+      - dozzle_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+volumes:
+  dozzle_data:
