@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:latest
+    image: amir20/dozzle:latest@sha256:c32ca7a443796de62a07afd621b17b6c6c073320cd8431493bb1fd84e3a1eff8
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
