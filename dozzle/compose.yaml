@@ -2,11 +2,9 @@ services:
   dozzle:
     image: amir20/dozzle:latest
     volumes:
-      - dozzle_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+      - /srv/dozzle/data:/data
     ports:
       - "50495:8080"
     environment:
       - DOZZLE_AUTH_PROVIDER=simple
-volumes:
-  dozzle_data:
