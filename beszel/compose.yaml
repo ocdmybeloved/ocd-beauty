@@ -1,6 +1,6 @@
 services:
   beszel:
-    image: henrygd/beszel:latest
+    image: henrygd/beszel:latest@sha256:4c51486968efa0b0a702c1b0967966a2e06fb250b7418f3072d2488faea27c51
     restart: unless-stopped
     volumes:
       - ./beszel_data:/beszel_data
