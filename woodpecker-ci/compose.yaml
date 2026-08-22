@@ -60,7 +60,7 @@ services:
     security_opt:
       - no-new-privileges:true
     depends_on:
-      - woodpecker-agent-socket-proxy
+      - woodpecker-ci-agent-socket-proxy
 volumes:
   woodpecker_ci_agent_config:
   woodpecker_ci_server_data:
