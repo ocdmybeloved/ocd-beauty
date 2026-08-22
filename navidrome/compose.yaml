@@ -6,9 +6,9 @@ services:
     networks:
       - navidrome_network
     volumes:
-      - navidrome_data:/data
-      - "/srv/navidrome/music:/music:ro"
-      - "./navidrome.toml:/data/navidrome.toml:ro"
+      - /srv/navidrome/data:/data
+      - /srv/navidrome/music:/music:ro
+      - ./navidrome.toml:/data/navidrome.toml:ro
     user: 1000:1000
     security_opt:
       - no-new-privileges:true
