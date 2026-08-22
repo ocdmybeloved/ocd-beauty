@@ -1,7 +1,7 @@
 services:
   dozzle:
     container_name: dozzle
-    image: amir20/dozzle:v10.7.3-alpine
+    image: amir20/dozzle:v10.7.3-alpine@sha256:f1ed2bbbcae850cf0d3fb8956535fdea766933dc24a24dfedc2c752b8b8a239f
     restart: unless-stopped
     networks:
       - dozzle_network
