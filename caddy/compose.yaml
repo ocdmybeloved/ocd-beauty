@@ -11,6 +11,8 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+      - /etc/caddy/certs/ocd.beauty.pem:/etc/caddy/certs/ocd.beauty.pem:ro
+      - /etc/caddy/certs/ocd.beauty.key:/etc/caddy/certs/ocd.beauty.key:ro
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     ports:
       - 80:80
