@@ -37,7 +37,7 @@ services:
       - dozzle_data:/data
       - /srv/dozzle/data/users.yaml:/data/users.yaml:ro
     ports:
-      - 50495:8080
+      - 127.0.0.1:50495:8080
     environment:
       - DOCKER_HOST=tcp://dozzle-socket-proxy:2375
       - DOZZLE_AUTH_PROVIDER=simple
