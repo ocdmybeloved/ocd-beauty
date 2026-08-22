@@ -1,0 +1,66 @@
+services:
+  woodpecker-ci-server:
+    image: woodpeckerci/woodpecker-server:v3@sha256:23bdea05bc35ce150d9ba768889c3f00b3a618785c85b268e8fbf9b06d5a21e0
+    restart: unless-stopped
+    volumes:
+      - woodpecker_ci_server_data:/var/lib/woodpecker
+    environment:
+      - WOODPECKER_ADMIN=${WOODPECKER_ADMIN}
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_GITEA=true
+      - WOODPECKER_GITEA_CLIENT=${WOODPECKER_GITEA_CLIENT}
+      - WOODPECKER_GITEA_SECRET=${WOODPECKER_GITEA_SECRET}
+      - WOODPECKER_GITEA_URL=${WOODPECKER_GITEA_URL}
+      - WOODPECKER_GRPC_SECRET=${WOODPECKER_GRPC_SECRET}
+      - WOODPECKER_HOST=${WOODPECKER_HOST}
+      - WOODPECKER_OPEN=true
+    security_opt:
+      - no-new-privileges:true
+  woodpecker-ci-agent-socket-proxy:
+    image: tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+      - IMAGES=1
+      - NETWORKS=1
+      - VOLUMES=1
+      - POST=1
+      - INFO=1
+      - PING=1
+      - VERSION=1
+      - EXEC=0
+      - SWARM=0
+      - SYSTEM=0
+      - PLUGINS=0
+      - SERVICES=0
+      - TASKS=0
+      - NODES=0
+      - SECRETS=0
+      - CONFIGS=0
+      - AUTH=0
+      - BUILD=0
+      - COMMIT=0
+      - DISTRIBUTION=0
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - woodpecker-ci-server
+  woodpecker-ci-agent:
+    image: woodpeckerci/woodpecker-agent:v3@sha256:03c7b1f7b2156d00fdf4c30da77ac2bfe88d09ed818ea4627f82835ad81a98c9
+    restart: unless-stopped
+    volumes:
+      - woodpecker_ci_agent_config:/etc/woodpecker
+    command: agent
+    environment:
+      - DOCKER_HOST=tcp://woodpecker-ci-agent-socket-proxy:2375
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_SERVER=woodpecker-ci-server:9000
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - woodpecker-agent-socket-proxy
+volumes:
+  woodpecker_ci_agent_config:
+  woodpecker_ci_server_data:

@@ -1,10 +1,7 @@
 services:
   navidrome:
-    container_name: navidrome
     image: deluan/navidrome:0.63.2@sha256:9012939114fbb1bb641b81cf96dec5ded15f0aafefe8d47a511d7cb919658e40
     restart: unless-stopped
-    networks:
-      - navidrome_network
     volumes:
       - /srv/navidrome/data:/data
       - /srv/navidrome/music:/music:ro
@@ -12,14 +9,3 @@ services:
     user: 1000:1000
     security_opt:
       - no-new-privileges:true
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.music.rule=Host(`music.ocd.beauty`)
-      - traefik.http.routers.music.entrypoints=websecure
-      - traefik.http.routers.music.tls=true
-      - traefik.http.services.music.loadbalancer.server.port=4533
-networks:
-  navidrome_network:
-    external: true
-volumes:
-  navidrome_data:

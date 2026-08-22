@@ -1,9 +1,0 @@
-tls:
-  certificates:
-    - certFile: /etc/traefik/certs/ocd.beauty.pem
-      keyFile: /etc/traefik/certs/ocd.beauty.key
-  stores:
-    default:
-      defaultCertificate:
-        certFile: /etc/traefik/certs/ocd.beauty.pem
-        keyFile: /etc/traefik/certs/ocd.beauty.key

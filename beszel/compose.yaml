@@ -1,24 +1,66 @@
 services:
   beszel:
-    container_name: beszel
     image: henrygd/beszel:0.18.8@sha256:4c51486968efa0b0a702c1b0967966a2e06fb250b7418f3072d2488faea27c51
     restart: unless-stopped
-    networks:
-      - beszel_network
     volumes:
       - beszel_data:/beszel_data
       - beszel_socket:/beszel_socket
     ports:
-      - 8090:8090
+      - 127.0.0.1:8090:8090
     environment:
       - APP_URL=http://localhost:8090
     security_opt:
       - no-new-privileges:true
-networks:
-  beszel_network:
-    external: true
+  beszel-agent-socket-proxy:
+    image: tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+      - IMAGES=1
+      - INFO=1
+      - PING=1
+      - VERSION=1
+      - POST=0
+      - EXEC=0
+      - NETWORKS=0
+      - VOLUMES=0
+      - SWARM=0
+      - SYSTEM=0
+      - PLUGINS=0
+      - SERVICES=0
+      - TASKS=0
+      - NODES=0
+      - SECRETS=0
+      - CONFIGS=0
+      - DISTRIBUTION=0
+      - AUTH=0
+      - BUILD=0
+      - COMMIT=0
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - beszel
+  beszel-agent:
+    image: henrygd/beszel-agent:0.18.8@sha256:3b1939746690e423072b4a99bf4c4af6dd9562a68978a33738a3c4a4cc000c39
+    restart: unless-stopped
+    volumes:
+      - beszel_agent_data:/var/lib/beszel-agent
+      - beszel_socket:/beszel_socket
+    environment:
+      - DOCKER_HOST=tcp://beszel-agent-socket-proxy:2375
+      - HUB_URL=http://beszel:8090
+      - KEY=${KEY}
+      - LISTEN=/beszel_socket/beszel.sock
+      - TOKEN=${TOKEN}
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - beszel-agent-socket-proxy
 volumes:
+  beszel_agent_data:
   beszel_data:
   beszel_socket:
-    external: true
-    name: beszel_socket
