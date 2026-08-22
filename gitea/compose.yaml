@@ -24,6 +24,12 @@ services:
       - USER_GID=1000
     security_opt:
       - no-new-privileges:true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.git.rule=Host(`git.ocd.beauty`)
+      - traefik.http.routers.git.entrypoints=websecure
+      - traefik.http.routers.git.tls=true
+      - traefik.http.services.git.loadbalancer.server.port=3000
 networks:
   gitea_network:
     external: true

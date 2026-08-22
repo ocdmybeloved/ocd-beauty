@@ -19,6 +19,12 @@ services:
       - WOODPECKER_OPEN=true
     security_opt:
       - no-new-privileges:true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ci.rule=Host(`ci.ocd.beauty`)
+      - traefik.http.routers.ci.entrypoints=websecure
+      - traefik.http.routers.ci.tls=true
+      - traefik.http.services.ci.loadbalancer.server.port=8000
 networks:
   woodpecker_ci_network:
     external: true

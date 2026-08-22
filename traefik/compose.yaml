@@ -1,0 +1,37 @@
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:v3.7.11
+    restart: unless-stopped
+    networks:
+      - gatus_network
+      - gitea_network
+      - navidrome_network
+      - woodpecker_ci_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/traefik/certs/ocd.beauty.pem:/etc/traefik/certs/ocd.beauty.pem:ro
+      - /etc/traefik/certs/ocd.beauty.key:/etc/traefik/certs/ocd.beauty.key:ro
+      - ./dynamic:/etc/traefik/dynamic:ro
+    ports:
+      - 80:80
+      - 443:443
+    command:
+      - --providers.docker=true
+      - --prodivers.docker.exposedbydefault=false
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --api.dashboard=true
+networks:
+  gatus_network:
+    external: true
+  gitea_network:
+    external: true
+  navidrome_network:
+    external: true
+  woodpecker_ci_network:
+    external: true

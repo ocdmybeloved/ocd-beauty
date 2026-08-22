@@ -12,6 +12,12 @@ services:
       - ALL
     security_opt:
       - no-new-privileges:true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.status.rule=Host(`status.ocd.beauty`)
+      - traefik.http.routers.status.entrypoints=websecure
+      - traefik.http.routers.status.tls=true
+      - traefik.http.services.status.loadbalancer.server.port=8080
 networks:
   gatus_network:
     external: true
