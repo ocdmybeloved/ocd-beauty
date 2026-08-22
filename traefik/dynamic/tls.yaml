@@ -1,5 +1,5 @@
 tls:
-  certifiactes:
+  certificates:
     - certFile: /etc/traefik/certs/ocd.beauty.pem
       keyFile: /etc/traefik/certs/ocd.beauty.key
   stores:
