@@ -1,11 +1,24 @@
 services:
   beszel:
-    image: henrygd/beszel:latest@sha256:4c51486968efa0b0a702c1b0967966a2e06fb250b7418f3072d2488faea27c51
+    container_name: beszel
+    image: henrygd/beszel:0.18.8
     restart: unless-stopped
+    networks:
+      - beszel_network
     volumes:
-      - ./beszel_data:/beszel_data
-      - ./beszel_socket:/beszel_socket
+      - beszel_data:/beszel_data
+      - beszel_socket:/beszel_socket
     ports:
       - 8090:8090
     environment:
-      APP_URL: http://localhost:8090
+      - APP_URL=http://localhost:8090
+    security_opt:
+      - no-new-privileges:true
+networks:
+  beszel_network:
+    external: true
+volumes:
+  beszel_data:
+  beszel_socket:
+    external: true
+    name: beszel_socket

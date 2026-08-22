@@ -1,6 +1,19 @@
 services:
   gatus:
-    image: twinproduction/gatus:latest@sha256:0009b90a11c042809f7f988c05c3f398dbf24b7498a0b7083efe3b9e8e126550
+    container_name: gatus
+    image: twinproduction/gatus:v5.36.0
     restart: unless-stopped
+    networks:
+      - gatus_network
     volumes:
+      - gatus_data:/data
       - ./config.yaml:/config/config.yaml
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+networks:
+  gatus_network:
+    external: true
+volumes:
+  gatus_data:

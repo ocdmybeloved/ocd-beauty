@@ -14,3 +14,6 @@ endpoints:
     interval: 30s
     conditions:
       - "[STATUS] == 200"
+storage:
+  type: sqlite
+  path: /data/data.db

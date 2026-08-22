@@ -1,0 +1,16 @@
+networks:
+  beszel_network:
+    name: beszel_network
+  dozzle_network:
+    name: dozzle_network
+  gatus_network:
+    name: gatus_network
+  gitea_network:
+    name: gitea_network
+  navidrome_network:
+    name: navidrome_network
+  woodpecker_ci_network:
+    name: woodpecker_ci_network
+volumes:
+  beszel_socket:
+    name: beszel_socket

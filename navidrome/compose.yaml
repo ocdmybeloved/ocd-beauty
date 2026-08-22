@@ -1,9 +1,19 @@
 services:
   navidrome:
-    image: deluan/navidrome:latest@sha256:9012939114fbb1bb641b81cf96dec5ded15f0aafefe8d47a511d7cb919658e40
+    container_name: navidrome
+    image: deluan/navidrome:0.63.2
     restart: unless-stopped
+    networks:
+      - navidrome_network
     volumes:
-      - "/srv/navidrome/data:/data"
+      - navidrome_data:/data
       - "/srv/navidrome/music:/music:ro"
-      - "./navidrome.toml:/data/navidrome.toml"
+      - "./navidrome.toml:/data/navidrome.toml:ro"
     user: 1000:1000
+    security_opt:
+      - no-new-privileges:true
+networks:
+  navidrome_network:
+    external: true
+volumes:
+  navidrome_data:

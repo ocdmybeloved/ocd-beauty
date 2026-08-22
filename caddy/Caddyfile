@@ -1,0 +1,15 @@
+git.ocd.beauty {
+    reverse_proxy gitea:3000    
+}
+
+ci.ocd.beauty {
+    reverse_proxy woodpecker-ci-server:8000
+}
+
+music.ocd.beauty {
+    reverse_proxy navidrome:4533
+}
+
+status.ocd.beauty {
+    reverse_proxy gatus:8080
+}

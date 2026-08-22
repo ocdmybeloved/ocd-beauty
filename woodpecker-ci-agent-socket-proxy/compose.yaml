@@ -1,0 +1,36 @@
+services:
+  woodpecker-ci-agent-socket-proxy:
+    container_name: woodpecker-ci-agent-socket-proxy
+    image: tecnativa/docker-socket-proxy:v0.5.0
+    restart: unless-stopped
+    networks:
+      - woodpecker_ci_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+      - IMAGES=1
+      - NETWORKS=1
+      - VOLUMES=1
+      - POST=1
+      - INFO=1
+      - PING=1
+      - VERSION=1
+      - EXEC=0
+      - SWARM=0
+      - SYSTEM=0
+      - PLUGINS=0
+      - SERVICES=0
+      - TASKS=0
+      - NODES=0
+      - SECRETS=0
+      - CONFIGS=0
+      - AUTH=0
+      - BUILD=0
+      - COMMIT=0
+      - DISTRIBUTION=0
+    security_opt:
+      - no-new-privileges:true
+networks:
+  woodpecker_ci_network:
+    external: true

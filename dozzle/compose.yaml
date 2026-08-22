@@ -1,11 +1,21 @@
 services:
   dozzle:
-    image: amir20/dozzle:latest@sha256:c32ca7a443796de62a07afd621b17b6c6c073320cd8431493bb1fd84e3a1eff8
+    container_name: dozzle
+    image: amir20/dozzle:v10.7.3-alpine
     restart: unless-stopped
+    networks:
+      - dozzle_network
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /srv/dozzle/data:/data
+      - dozzle_data:/data
+      - ./users.yaml:/data/users.yaml:ro
     ports:
       - "50495:8080"
     environment:
+      - DOCKER_HOST=tcp://dozzle-socket-proxy:2375
       - DOZZLE_AUTH_PROVIDER=simple
+      - DOZZLE_NO_ANALYTICS=true
+networks:
+  dozzle_network:
+    external: true
+volumes:
+  dozzle_data:

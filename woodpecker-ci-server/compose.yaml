@@ -1,0 +1,26 @@
+services:
+  woodpecker-ci-server:
+    container_name: woodpecker-ci-server
+    image: woodpeckerci/woodpecker-server:v3@sha256:23bdea05bc35ce150d9ba768889c3f00b3a618785c85b268e8fbf9b06d5a21e0
+    restart: unless-stopped
+    networks:
+      - woodpecker_ci_network
+    volumes:
+      - woodpecker_ci_server_data:/var/lib/woodpecker
+    environment:
+      - WOODPECKER_ADMIN=${WOODPECKER_ADMIN}
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_GITEA=true
+      - WOODPECKER_GITEA_CLIENT=${WOODPECKER_GITEA_CLIENT}
+      - WOODPECKER_GITEA_SECRET=${WOODPECKER_GITEA_SECRET}
+      - WOODPECKER_GITEA_URL=https://git.ocd.beauty
+      - WOODPECKER_GRPC_SECRET=${WOODPECKER_GRPC_SECRET}
+      - WOODPECKER_HOST=https://ci.ocd.beauty
+      - WOODPECKER_OPEN=true
+    security_opt:
+      - no-new-privileges:true
+networks:
+  woodpecker_ci_network:
+    external: true
+volumes:
+  woodpecker_ci_server_data:

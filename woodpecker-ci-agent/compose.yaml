@@ -1,0 +1,23 @@
+services:
+  woodpecker-ci-agent:
+    container_name: woodpecker-ci-agent
+    image: woodpeckerci/woodpecker-agent:v3@sha256:03c7b1f7b2156d00fdf4c30da77ac2bfe88d09ed818ea4627f82835ad81a98c9
+    restart: unless-stopped
+    networks:
+      - woodpecker_ci_network
+    volumes:
+      - woodpecker_ci_agent_config:/etc/woodpecker
+    command: agent
+    environment:
+      - DOCKER_HOST=tcp://woodpecker-ci-agent-socket-proxy:2375
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_SERVER=woodpecker-ci-server:9000
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - woodpecker-ci-server
+networks:
+  woodpecker_ci_network:
+    external: true
+volumes:
+  woodpecker_ci_agent_config:
